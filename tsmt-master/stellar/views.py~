@@ -1,0 +1,169 @@
+from django.shortcuts import render
+
+# Create your views here.
+from django.http import HttpResponse
+from django.template import loader
+from django.conf import settings
+from django.shortcuts import redirect#, render_to_response
+#from django.template import RequestContext
+
+from stellar_base.horizon import Horizon
+
+
+from .models import Accounts
+#from stellar.forms import *
+
+def index(request):
+    return render(request, 'base.html')
+
+
+def results(request, account_id):
+    response = "You're looking at the results of account_id %s."
+    return HttpResponse(response % account_id)
+
+def accounts(request):
+	if not request.user.is_authenticated():
+		return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+	else:
+	    context = {}
+	    template = loader.get_template('stellar/accounts.html')
+	    return HttpResponse(template.render(context, request))
+        #
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if(form.is_valid()):
+            print(request.POST['username'])
+            print(request.POST['message'])
+            message = "thank you for your feedback"
+        else:
+            message = "sorry something went wrong"
+        context = {'success': message}
+        return render(request, 'stellar/contact.html', context)
+    if request.method =='GET':
+        print "ok"
+        form = FeedbackForm()
+        return render(request, 'stellar/contact.html', {'form': form})
+
+
+def user_login(request):
+	pass
+    # from http://www.tangowithdjango.com/book17/chapters/login.html
+    # if request.method == 'POST':
+    #     username = request.POST.get('username')
+    #     password = request.POST.get('password')
+    #     user = authenticate(username=username, password=password)
+    #     if user:
+    #         if user.is_active:
+    #             login(request, user)
+    #             return HttpResponseRedirect('/stellar/login/')
+    #         else:
+    #             return HttpResponse("Your Stellar account is disabled.")
+    #     else:
+    #         print "Invalid login details: {0}, {1}".format(username, password)
+    #         return HttpResponse("Invalid login details supplied.")
+    # else:
+    #     return render(request, 'stellar/login.html', {})
+
+def results(request, account_id):
+    response = "You're looking at the results of account_id %s."
+    return HttpResponse(response % account_id)
+
+def detail(request, str_addr):
+    hz = Horizon()
+    r = hz.account(str_addr)['balances']
+    print r
+    x = {'r': r}
+    #return HttpResponse("You're looking at question %s." % r)
+    return render(request, 'stellar/accountdetails.html', x)
+
+def accountdr(request, account_addr):
+    hz = Horizon()
+    if account_addr is None:
+        address_addr = 'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW'
+    r = hz.account(address_addr)['balances']
+    print r
+    x = {'r': r}
+    return render(request, 'stellar/accountdetails.html', x)
+
+def accountcreate(request):
+    kp = Keypair.random()
+    print kp.address().decode('ascii')
+    print kp.seed().decode('ascii')
+    r = {'address': u'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW',
+     'seed': u'SDIXGWLFZYV2DJYKJBUBSAC5HP33TGTQ5RKJSRFAQTMTBWUKCE3ATHRJ'}
+    x = {'r': r}
+    print x
+    return render(request, 'stellar/accountcreate.html', x)
+
+def accountdetails2(request):
+    hz = Horizon()
+    address = 'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW'
+    r = hz.account(address)['balances']
+    print r
+    x = {'r': r}
+    return render(request, 'stellar/accountdetails.html', x)
+
+
+def accountdetails3(request):
+    #from stellar_base.horizon import Horizon
+    hz = Horizon()
+    anna1 = {'address': u'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW',
+     'seed': u'SDIXGWLFZYV2DJYKJBUBSAC5HP33TGTQ5RKJSRFAQTMTBWUKCE3ATHRJ'}
+    r = hz.account_transactions(anna1['address'])
+    print r['_embedded']['records']
+    r = {'r': r}
+    r['address'] = anna1['address']
+    print r
+    #return render(request, 'stellar/accountdetails.html', r)
+
+
+def offers(request):
+    #from stellar_base.horizon import Horizon
+    hz = Horizon()
+    params = {
+    'selling_asset_type': 'native', 'buying_asset_type':'credit_alphanum4',
+    'buying_asset_code': 'AAA',
+    'buying_asset_issuer': 'GAX4CUJEOUA27MDHTLSQCFRGQPEXCC6GMO2P2TZCG7IEBZIEGPOD6HKF'
+    }
+    r = hz.order_book(params=params)
+    r = {'r': r}
+    print r
+    return render(request, 'stellar/offers.html', r)
+
+
+
+def transactions(request):
+    from stellar_base.horizon import Horizon
+    hz = Horizon()
+    anna1 = {'address': u'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW',
+     'seed': u'SDIXGWLFZYV2DJYKJBUBSAC5HP33TGTQ5RKJSRFAQTMTBWUKCE3ATHRJ'}
+    print anna1
+    r = hz.account_payments(anna1['address'])
+    x = r['_embedded']['records']
+    #x['address1'] = anna1['address']
+    r = {'r': x,'address':anna1['address']}
+    return render(request, 'stellar/transactions.html', r)
+
+
+def send(request):
+
+    return render(request, 'stellar/send.html')
+
+
+def request(request):
+
+    return render(request, 'stellar/request.html')
+
+
+
+
+    # for x in r['_embedded']['records']:
+    #     t = x['type']
+    #     if t = 'starting_balance':
+    #         print 'starting_balance', x['starting_balance']
+    #     else:
+    #         print 'payment', x['amount']
+    #         print x

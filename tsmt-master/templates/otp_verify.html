@@ -1,0 +1,40 @@
+<div class="sider_bar">
+{% load i18n %}
+  {% if not request.user.is_authenticated %}
+
+
+{% extends "base.html" %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+<fieldset class="settinggg">
+    <h2 style="text-align: center;" class='legend'>
+      Otp Verification
+    </h2>
+</fieldset>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+       <div class="login-page">
+              <div class="form">
+                <form class="login-form" method="post" action="/otp_login/">
+                    {% csrf_token %}
+                    {% if otp_data %}
+                        <p style="color:red">{{message}}</p>
+
+                  <input type="text" name="number" placeholder="Mobile Number" value="{{otp_data.number}}"/>
+                  <input type="text" name="otp" placeholder="Enter Otp here"/>
+                  <button>login</button>
+                    {% else %}
+                    <input type="text" name="number" placeholder="Mobile Number" value="{{otp_data.number}}"/>
+                    <button>Request OTP</button>
+                    {% endif %}
+                  <p class="message">Not registered? <a href="/register/">Create an account</a></p>
+                </form>
+              </div>
+            </div>
+    </div>
+    <div class="col-md-6"></div>
+</div>
+    {% endif %}
+{% endblock %}

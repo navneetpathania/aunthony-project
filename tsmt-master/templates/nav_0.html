@@ -1,0 +1,73 @@
+{% load static %}
+
+<div class="nev_toggle_bar">
+    <ul class="dropdown_bar_bar">
+        <li>
+            <img src="{% static 'menu.png' %}">
+            <ul class="sub_dropdown_bar">
+                <li>
+<div class="sider_bar">
+{% load i18n %}
+  {% if not request.user.is_authenticated %}
+
+  {% endif %}
+<div class="navbar_inner">
+      <ul class="navbar-nav">
+          {% if request.user.is_authenticated %}
+          <h5> Orders</h5>
+        <ul>
+          <li>
+            <a  href="/stellar/send">{% trans "Send" %}</a>
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/stellar/request">{% trans "Request" %}</a>
+          </li>
+        </li>
+      </ul>
+      <h5> Accounts</h5><ul>
+        <li class="navbar-nav-item">
+          <a href="/stellar/accountdetails">{% trans "Balances" %}</a>
+        </li>
+        <li class="navbar-nav-item">
+            <a  href="/stellar/transactions">{% trans "Transactions" %}</a>
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/stellar/accounts">{% trans "Accounts" %}</a>
+          </li>
+        </ul>
+          <h5> Settings </h5><ul>
+          <li class="navbar-nav-item">
+            <a href="/settings">{% trans "Settings" %} </a>
+          </li>
+<h5>For {{ request.user }}</h5>
+          <li class="navbar-nav-item">
+            <a href="/stellar/trustlines">{% trans "Trustlines" %} </a>
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/logout_user/">{% trans "Logout" %}</a>
+          </li></ul>
+          {% endif %}
+
+          {% if not request.user.is_authenticated %}
+          <h5> Menu</h5>
+          <li class="navbar-nav-item">
+              <a href="/remittance/">{% trans "Remittance" %}</a>
+            </li>
+          <li class="navbar-nav-item">
+            <a href="/register/">{% trans "Register" %}</a>
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/login_user/">{% trans "Login" %}</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+</div>
+
+        <!-- <li style="display: block; width: 61px; left: 0px; opacity: 1;" id="navbar-nav-bar" class="navbar-nav-item navbar-nav-bar"></li> -->
+</div>
+                </li>
+                </ul>
+        </li>
+        </ul>
+</div>

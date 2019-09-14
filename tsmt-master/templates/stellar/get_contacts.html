@@ -1,0 +1,45 @@
+
+
+
+{% extends "base.html" %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+
+<nav>
+<a href="/stellar/contact_create">{% trans "Create Contact" %}</a> |
+<a href="/stellar/get_contacts">{% trans "Get Contacts" %}</a><br \>
+</nav>
+<h3 style="text-align: center;" >Get Contacts</h3>
+<div class="container">
+
+  <table class="table table-bordered table-hover" >
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Address</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for value in r %}
+      <tr>
+        <td>{{ value.contact}}</td>
+        <td>{{ value.address}}</td>
+        <td><a href="/stellar/send/?account={{ value.address }}&user={{ value.contact}}">Send</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+            <a href="/stellar/contact_delete/?contact={{ value.contact}}">Delete</a>
+        </td>
+
+      </tr>
+{% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

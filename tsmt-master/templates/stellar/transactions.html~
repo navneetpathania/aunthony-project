@@ -1,0 +1,38 @@
+{% extends 'stellar/base.html' %}
+
+
+       
+
+  {% block body %}
+
+
+
+     <h1>SE Wallet Transaction Details</h1>
+
+        <h1>Transaction History Details</h1>
+
+My address: {{address}}<br\><p>
+
+{% for value in r %}
+{{ value.type}} |
+{% if value.asset_type == 'native' %}
+     Lumen
+  {% else %}
+     {{ value.asset_code}}
+{% endif %}
+| {{ value.amount}} 
+|from: 
+{% if value.from == address  %} 
+me  {% else %} 
+{{ value.from }} 
+{% endif %}
+to: 
+{% if value.to == address  %} 
+me  {% else %} 
+{{ value.to }} 
+{% endif %}
+ <p>
+{% endfor %}
+
+
+    {% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <form action="">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Username</label>
+                    <input type="text" class="form-control" value="{{username}}" placeholder="Username">
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Name</label>
+                    <input type="text" class="form-control" value="{{name}}" placeholder="Name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Account Id</label>
+                    <input type="text" class="form-control" value="{{addres}}" placeholder="Account Id">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>Secret Key</label>
+                    <input type="text" class="form-control" value="{{seed}}" placeholder="Secret Key">
+                </div>
+            </div>
+        </div>
+
+            <input class="btn btn-info" type="submit" value="submit">
+        </form>
+    </div>
+{% endblock %}

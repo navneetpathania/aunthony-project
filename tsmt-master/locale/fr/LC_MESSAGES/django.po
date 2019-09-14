@@ -1,0 +1,167 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-21 17:38-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: stellar/views.py:44
+#, fuzzy
+#| msgid "thank you for your feedback"
+msgid "thank you for your contact"
+msgstr "Merci pour votre avis"
+
+#: stellar/views.py:46 stellar/views.py:64
+msgid "sorry something went wrong"
+msgstr "Désolé, quelque chose s'est mal passé"
+
+#: templates1/base.html:58 templates1/base.html:108
+#: templates1/stellar/send.html:19
+msgid "Send"
+msgstr "Envoyer de l'argent"
+
+#: templates1/base.html:61 templates1/base.html:108
+msgid "Request"
+msgstr "Demander de l'argent"
+
+#: templates1/base.html:65
+msgid "Balances"
+msgstr "Som"
+
+#: templates1/base.html:69
+msgid "Transactions"
+msgstr "Transactions"
+
+#: templates1/base.html:72
+msgid "Accounts"
+msgstr "Compte"
+
+#: templates1/base.html:75
+msgid "Settings"
+msgstr "Paramètres"
+
+#: templates1/base.html:78
+msgid "Logout"
+msgstr "déconnecter"
+
+#: templates1/base.html:83
+msgid "Markets"
+msgstr "marché"
+
+#: templates1/base.html:87 templates1/registration_form.html:14
+#: templates1/registration_update.html:11 templates1/settings.html:18
+msgid "Register"
+msgstr "Ouvrir un compte"
+
+#: templates1/base.html:90
+msgid "Login"
+msgstr "Connexion"
+
+#: templates1/base.html:109
+msgid "About"
+msgstr "Concernant"
+
+#: templates1/login.html:9
+msgid "Login to Qwallet"
+msgstr "Connexion"
+
+#: templates1/login.html:13 templates1/registration_update.html:15
+#: templates1/settings.html:36
+msgid "Email"
+msgstr "Email"
+
+#: templates1/login.html:15 templates1/registration_update.html:17
+#: templates1/settings.html:38
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates1/settings.html:22
+msgid "Language"
+msgstr "langue"
+
+#: templates1/settings.html:41
+msgid "Firstname"
+msgstr "Prenom"
+
+#: templates1/settings.html:44
+#| msgid "Username"
+msgid "Lastname"
+msgstr "Nom Famile"
+
+#: templates1/settings.html:46
+#| msgid "Amount"
+msgid "Country"
+msgstr "Pays"
+
+#: templates1/settings.html:298
+msgid "Date of Birth"
+msgstr "Dat de Naissance"
+
+#: templates1/stellar/create_contact.html:13
+#: templates1/stellar/get_contacts.html:16 templates1/stellar/send.html:15
+msgid "Create Contact"
+msgstr ""
+
+#: templates1/stellar/create_contact.html:18
+msgid "Contact"
+msgstr "Contact"
+
+#: templates1/stellar/create_contact.html:20
+msgid "Stellar Address"
+msgstr "Adresse Stellar"
+
+#: templates1/stellar/create_contact.html:23
+msgid "Memo"
+msgstr "note"
+
+#: templates1/stellar/get_contacts.html:17 templates1/stellar/send.html:16
+msgid "Get Contacts"
+msgstr "Ouvrir un compte"
+
+#: templates1/stellar/send.html:23
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: templates1/stellar/send.html:24
+msgid "Account"
+msgstr "Compte"
+
+#: templates1/stellar/send.html:25
+msgid "Amount"
+msgstr "Compte"
+
+#: templates1/stellar/send.html:26
+msgid "Currency"
+msgstr "Devise"
+
+#: tsmt/settings.py:21
+msgid "French"
+msgstr "français"
+
+#: tsmt/settings.py:22
+msgid "English"
+msgstr "Anglais"
+
+#~ msgid "Create Wallet"
+#~ msgstr "Ouvrir un compte"
+
+#~ msgid "Create Recipient"
+#~ msgstr "Créer bénéficiaire"
+
+#, fuzzy
+#~| msgid "Account"
+#~ msgid "Create Account"
+#~ msgstr "Compte"

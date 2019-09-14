@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+<nav>
+<a href="/stellar/contact_create">{% trans "Create Contact" %}</a> |
+<a href="/stellar/get_contacts">{% trans "Get Contacts" %}</a><br \>
+</nav>
+<h3 style="text-align: center;">{% trans "Create Contact" %}</h3>
+           <div class="login-page">
+              <div class="form">
+                <form class="login-form" method="post" action="/stellar/contact_create/">
+                    {% csrf_token %}
+                  {% trans "Contact" %}<input type="text" name="contact" placeholder='contact' value="" size="20" required />
+                  {% trans "Stellar Address" %}<input type="text" name="address" placeholder='address' value="" size="80" pattern=".{8,60}" />
+                   {% trans "Memo" %}<input type="text" name="memo" placeholder='memo' value="" size="28"  />
+                                    <button>Submit</button>
+
+                </form>
+              </div>
+            </div>
+{% if success %}
+{{success}}
+{% endif %}
+
+
+{% endblock %}

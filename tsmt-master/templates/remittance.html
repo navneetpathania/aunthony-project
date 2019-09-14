@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+{% block content %}
+<h2>About Remittance</h2>
+
+<p> Here are tools to help you get more out of remittance</p>
+
+<ul>
+  <li><a href="#about">About Remittance</a></li>
+  <li><a href="#checkfees">Tools to Analyze Fees</a></li>
+  <li><a href="#sendmoney">Check Status of send WU </a></li>
+  <li><a href="#sendmoney">Check Status of send Tempo </a></li>
+  <li><a href="#sendmoney">Check Status of send Ria </a></li>
+</ul>
+
+
+
+
+<h4>About Remittance</h4>
+<p>
+Remittance is people sending money home to people they love. Remittance is the largest source of foriegn aid.
+It far outstrips UN aid in terms of impact to people in developing countries. qwallet and stellar were made to help
+people who are unbanked do banking more efficiently. As a part of that we have several apps that can help
+you send more to people you love.
+</p>
+
+<h4>Tools to Analyze Fees/h4>
+#TODO download the World bank on fees - implement here
+
+
+
+
+
+{% endblock %}

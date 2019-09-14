@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<fieldset class="settinggg">
+    <h2 style="text-align: center;" class='legend'>
+      Account Keys
+    </h2>
+</fieldset>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-4">
+        <table class="table table-bordered bold">
+            {% if r %}
+            <tr>
+                <td><b>Public Key</b></td><td>{{r.address}}</td>
+            </tr>
+            <tr>
+                <td><b>Secret Key</b> </td><td>{{r.secret_key}}</td>
+            </tr>
+            {%  endif %}
+        </table>
+    </div>
+    <div class="col-md-6"></div>
+</div>
+{% endblock %}

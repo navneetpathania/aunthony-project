@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% static "" as baseUrl %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+
+  {% block content %}
+<fieldset class="settinggg">
+    <h2 style="text-align: center;" class='legend'>
+      {% trans "Transaction History Details" %}
+    </h2>
+</fieldset>
+
+My address: {{address}}<br\><p>
+
+{% for value in r %}
+{{ value.type}} |
+{% if value.asset_type == 'native' %}
+     Lumen
+  {% else %}
+     {{ value.asset_code}}
+{% endif %}
+| {{ value.amount}}
+|from:
+{% if value.from == address  %}
+me  {% else %}
+{{ value.from }}
+{% endif %}
+to:
+{% if value.to == address  %}
+me  {% else %}
+{{ value.to }}
+{% endif %}
+ <p>
+{% endfor %}
+    {% endblock %}

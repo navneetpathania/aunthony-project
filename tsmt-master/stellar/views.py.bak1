@@ -1,0 +1,191 @@
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+# Create your views here.
+from django.http import HttpResponse
+from django.template import loader
+from django.conf import settings
+from django.shortcuts import redirect#, render_to_response
+from django.utils.translation import ugettext_lazy as _
+#from django.template import RequestContext
+
+from stellar_base.horizon import Horizon
+
+from .forms import ContactForm
+from .models import Accounts, Contact
+
+
+def index(request):
+    return render(request, 'base.html')
+
+
+def get_contacts(request):
+    if request.method =='GET':
+        r = Contact.objects.filter(user_name=request.user)
+        return render(request, 'stellar/get_contacts.html', {'r': r})
+
+
+@login_required(login_url="/login_user/")
+def send(request):
+    account = request.GET.get('account')
+    user = request.GET.get('user')
+    currency = request.GET.get('currency')
+    return render(request, 'stellar/send.html', {'account': account,'user': user,'currency': currency})
+
+
+def results(request, account_id):
+    response = "You're looking at the results of account_id %s."
+    return HttpResponse(response % account_id)
+
+
+@login_required(login_url="/login_user/")
+def accounts(request):
+    r = Accounts.objects.filter(user_name=request.user)
+    return render(request, 'stellar/accounts.html',{'r': r})
+
+
+@login_required(login_url="/login_user/")
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")
+
+
+@login_required
+def create_contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if(form.is_valid()):
+            post = form.save(commit=False)
+            post.user_name = request.user
+            #post.created = timezone.now()
+            post.save()
+            message = _("thank you for your contact")
+        else:
+            message = _("sorry something went wrong")
+        context = {'success': message}
+        return render(request, 'stellar/create_contact.html', context)
+    if request.method =='GET':
+        form = ContactForm()
+        return render(request, 'stellar/create_contact.html', {'form': form})
+
+
+def contact(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if(form.is_valid()):
+            print(request.POST['username'])
+            print(request.POST['message'])
+            message = "thank you for your feedback"
+        else:
+            message = "sorry something went wrong"
+        context = {'success': message}
+        return render(request, 'stellar/contact.html', context)
+    if request.method =='GET':
+        print "ok"
+        form = FeedbackForm()
+        return render(request, 'stellar/contact.html', {'form': form})
+
+
+def results(request, account_id):
+    response = "You're looking at the results of account_id %s."
+    return HttpResponse(response % account_id)
+
+
+def detail(request, str_addr):
+    hz = Horizon()
+    r = hz.account(str_addr)['balances']
+    print r
+    x = {'r': r}
+    #return HttpResponse("You're looking at question %s." % r)
+    return render(request, 'stellar/accountdetails.html', x)
+
+
+def accountdr(request, account_addr):
+    hz = Horizon()
+    if account_addr is None:
+        address_addr = 'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW'
+    r = hz.account(address_addr)['balances']
+    print r
+    x = {'r': r}
+    return render(request, 'stellar/accountdetails.html', x)
+
+
+def accountcreate(request):
+    from horizon import newAccount
+    kp = newAccount()
+    print kp
+    #r = {'address': kp[0],'seed': kp[1]}
+    r = {'address': 'test','seed': 'test2'}
+    x = {'r': kp}
+    print x
+    return render(request, 'stellar/accountcreate.html', x)
+
+
+def accountdetails(request):
+    hz = Horizon()
+    a = Accounts.objects.filter(user_name=request.user)
+    address = a[0].address # = 'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW'
+    print address
+    r = hz.account(address)['balances']
+    print r
+    x = {'r': r}
+    return render(request, 'stellar/accountdetails.html', x)
+
+
+def accountdetails3(request):
+    #from stellar_base.horizon import Horizon
+    hz = Horizon()
+    anna1 = {'address': u'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW',
+     'seed': u'SDIXGWLFZYV2DJYKJBUBSAC5HP33TGTQ5RKJSRFAQTMTBWUKCE3ATHRJ'}
+    r = hz.account_transactions(anna1['address'])
+    print r['_embedded']['records']
+    r = {'r': r}
+    r['address'] = anna1['address']
+    print r
+    #return render(request, 'stellar/accountdetails.html', r)
+
+
+def offers(request):
+    #from stellar_base.horizon import Horizon
+    hz = Horizon()
+    params = {
+    'selling_asset_type': 'native', 'buying_asset_type':'credit_alphanum4',
+    'buying_asset_code': 'AAA',
+    'buying_asset_issuer': 'GAX4CUJEOUA27MDHTLSQCFRGQPEXCC6GMO2P2TZCG7IEBZIEGPOD6HKF'
+    }
+    r = hz.order_book(params=params)
+    r = {'r': r}
+    print r
+    return render(request, 'stellar/offers.html', r)
+
+#    anna1 = {'address': u'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW',
+     #'seed': u'SDIXGWLFZYV2DJYKJBUBSAC5HP33TGTQ5RKJSRFAQTMTBWUKCE3ATHRJ'}
+
+def transactions(request):
+    a = Accounts.objects.filter(user_name=request.user)
+    address = a[0].address # = 'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW'
+    hz = Horizon()
+    r = hz.account_payments(address)
+    x = r['_embedded']['records']
+    r = {'r': x,'address': address}
+    print r
+    return render(request, 'stellar/transactions.html', r)
+    #hz = Horizon()
+    #r = hz.account(address)['balances']
+    #print r
+    #x = {'r': r}
+    #return render(request, 'stellar/accountdetails.html', x)
+
+
+def request(request):
+    r = Accounts.objects.filter(user_name=request.user)
+    return render(request, 'stellar/request.html',{'r': r})
+
+
+
+
+    # for x in r['_embedded']['records']:
+    #     t = x['type']
+    #     if t = 'starting_balance':
+    #         print 'starting_balance', x['starting_balance']
+    #     else:
+    #         print 'payment', x['amount']
+    #         print x

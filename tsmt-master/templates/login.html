@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+{% block content %}
+
+        <h3 style="text-align: center;">{% trans "Login to Qwallet" %}</h3>
+
+
+           <div class="login-page">
+              <div class="form">
+                <form class="login-form" method="post" action="/login_user/">
+                    {% csrf_token %}
+                    {% if message %}
+                        <p style="color:red">{{message}}</p>
+                    {% endif %}
+                  <input type="text" name="username" placeholder="username"/>
+                  <input type="password" name="password" placeholder="password"/>
+                  <button>login</button>
+                  <p class="message">Not registered? <a href="/register/">Create an account</a></p>
+                </form>
+              </div>
+            </div>
+
+{% endblock %}

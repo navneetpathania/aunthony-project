@@ -1,0 +1,91 @@
+
+{% load i18n %}
+<style>
+ul {
+  font-family: "Verdana", sans-serif;
+  background-color: blue;
+  color: white;
+  padding: 8px 1px;
+
+}
+li {
+  padding: 8px 20px;
+  box-shadow: 2px;
+
+}
+
+li.active {
+  background-color: black
+}
+
+li:hover {
+background-color: black
+}
+
+.nav li ul {
+right: +9999em; /* moves sub-menus off-screen */
+position: relative;
+z-index: 1000;
+}
+
+.nav li:hover ul {
+left: auto; /* puts sub-menus back in natural spot */
+}
+</style>
+  {% if not request.user.is_authenticated %}
+<h4>More for your loved ones</h5>
+  {% endif %}
+<div span="menu">
+
+
+          <ul class="navbar-nav">
+            {% if request.user.is_authenticated %}
+          <li> Orders</li><ul>
+          <li>
+            <a  href="/stellar/send">{% trans "Send" %}</a>
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/stellar/request">{% trans "Request" %}</a>
+          </li>
+        </li></ul>
+
+           <li> Accounts</li><ul>
+             <li class="navbar-nav-item">
+               <a href="/stellar/accountdetails">{% trans "Balances" %}</a>
+             </li>
+          <li class="navbar-nav-item">
+            <a  href="/stellar/transactions">{% trans "Transactions" %}</a>
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/stellar/accounts">{% trans "Accounts" %}</a>
+          </li>
+        </ul>
+          <li class="navbar-nav-item">
+            <a href="/settings">{% trans "Settings" %} </a> for {{ request.user }}
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/logout_user/">{% trans "Logout" %}</a>
+          </li>
+          {% endif %}
+
+             <li class="navbar-nav-item">
+            <a href="/stellar/offers">{% trans "Markets" %}</a>
+          </li>
+          {% if not request.user.is_authenticated %}
+          <li class="navbar-nav-item">
+              <a href="/remittance/">{% trans "Remittance" %}</a>
+            </li>
+          <li class="navbar-nav-item">
+            <a href="/register/">{% trans "Register" %}</a>
+          </li>
+          <li class="navbar-nav-item">
+            <a href="/login_user/">{% trans "Login" %}</a>
+          </li>
+
+          {% endif %}
+
+
+        </ul>
+      </nav>
+        <li style="display: block; width: 61px; left: 0px; opacity: 1;" id="navbar-nav-bar" class="navbar-nav-item navbar-nav-bar"></li>
+      </div>

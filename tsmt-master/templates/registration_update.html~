@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+
+{% block title %}{{ section.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ section.title }}</h1>
+
+TEST
+<h1>Register</h1>
+    <form method="post" action="/register/">
+                {% csrf_token %}
+
+    <label>Email*</label>:
+    <input type="email" name="email" required value={email}><br>
+    <label>Password:*</label>
+    <input type="password" name="password" required pattern=".{8,10}">(min 8)<br>
+    <input type="submit" value="submit"><br>
+    <hr>
+    <label>Firstname</label>
+    <input type="text" name="firstname" value={firstname}><br>
+
+    <label>Lastname:*</label>
+    <input type="text" name="lastname" required pattern=".{1,10}">(min 8)<br>
+    <label>Country</label>
+    <input type="text" name="country" value={country}><br>
+    <label>Date of Birth</label>
+    <input type="date" name="dob" value={date}><br>
+
+
+    <input type="submit" value="submit"><br>
+
+
+    </form>
+
+
+{% endblock %}

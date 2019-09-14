@@ -1,0 +1,55 @@
+{% extends 'stellar/base.html' %}
+
+<h2> SE Wallet Request</h2>
+{% block body %}
+
+
+
+<h3>{{ r.counter.asset_code }}</h3>
+</p>
+Offers to buy Lumens and sell AAA<p>
+{{ r.bids }}<p>
+======================<p>
+Offers to sell Lumens for AAA<p>
+{{ r.asks }}
+<p>======================<p>
+
+<div>
+
+  <table style="float: left">
+  <tr><td> <b> BIDS to buy Lumens and sell AAA</b></td><td>
+   <tr><td> <b> Price     </b></tdtd> <b> Amount     </b></td><tr>
+{% for value in r.bids  %}
+ <tr><td>
+{{ value.price }}
+</td>
+<td>
+ {{ value.amount }}
+</td>
+ </tr>
+
+
+
+  <table style="float: left">
+  <tr><td> <b> ASKS  to sell  Lumens and buy AAA</b></td><tr>
+  <tr><td> <b> Price     </b></tdtd> <b> Amount     </b></td><tr>
+{% for value in r.asks  %}
+ <tr><td>
+{{ value.price }}
+</td>
+<td>
+ {{ value.amount }}
+</td>
+ </tr>
+
+{% endfor %}
+ </table>
+
+ 
+
+{% endfor %}
+ </table>
+ </div>
+
+
+{% endblock %}

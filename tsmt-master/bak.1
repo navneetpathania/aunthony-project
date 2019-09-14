@@ -1,0 +1,74 @@
+import qrcode
+val = 'GDVRS4JT7QUXBYOZWDAJEQUBJC5L74Q5ASDYK5HROOGJHNBUVKB6CNGW'
+qr = qrcode.QRCode(
+    version=1,
+    error_correction=qrcode.constants.ERROR_CORRECT_L,
+    box_size=8,
+    border=3,
+)
+qr.add_data(val)
+qr.make()
+im = qr.make_image()
+im.save(val + ".png")
+
+<h1>Transaction History Details</h1>
+
+My address: {{address}}<br\><p>
+
+{% for value in r %}
+{{ value.type}} |
+{% if value.asset_type == 'native' %}
+     Lumen
+  {% else %}
+     {{ value.asset_code}}
+{% endif %}
+| {{ value.amount}}
+|from:
+{% if value.from == address  %}
+me  {% else %}
+{{ value.from }}
+{% endif %}
+to:
+{% if value.to == address  %}
+me  {% else %}
+{{ value.to }}
+{% endif %}
+ <p>
+{% endfor %}
+
+
+
+
+
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+
+
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+TEST
+
+{{ r }}
+
+{% block body %}
+
+{% for value in r %}
+{% if value.asset_type == 'native' %}
+Asset: "Lumen"
+{% else %}
+Asset: {{ value.asset_code}}
+{% endif %}
+Balance: {{ value.balance}} <a href='/stellar/send/{{ value.asset_code }}'>send</a><p>
+
+{% endfor %}
+
+
+
+{% endblock %}
