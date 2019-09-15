@@ -1,6 +1,3 @@
-
-
-
 {% extends "base.html" %}
 {% load i18n %}
 
@@ -22,6 +19,7 @@
   <table class="table table-bordered table-hover" >
     <thead>
       <tr>
+        <th>Id</th>
         <th>User</th>
         <th>Address</th>
         <th>Action</th>
@@ -30,16 +28,44 @@
     <tbody>
     {% for value in r %}
       <tr>
+        <td>{{value.id}}</td>
         <td>{{ value.contact}}</td>
         <td>{{ value.address}}</td>
-        <td><a href="/stellar/send/?account={{ value.address }}&user={{ value.contact}}">Send</a> &nbsp;&nbsp; | &nbsp;&nbsp;
-            <a href="/stellar/contact_delete/?contact={{ value.contact}}">Delete</a>
+
+        <td><a href="#" onclick="send_contact({{value.id}})">Send</a> &nbsp;&nbsp; | &nbsp;&nbsp;
+            <a href="#" onclick="delete_contact({{value.id}})">Delete</a>
         </td>
 
       </tr>
 {% endfor %}
     </tbody>
   </table>
+  <p></p>
 </div>
+
+<script>
+function delete_contact(valueid)
+{
+    var status = confirm("Are you sure to delete the record");
+    if(status)
+    {
+        console.log("Deleted");
+        window.location =  "http://127.0.0.1:8000/stellar/contact_delete/"+ valueid;
+    }
+    else
+    {
+        console.log("Not deleted");
+    }
+
+    console.log(carid);
+    console.log("CLICK");
+}
+
+
+function send_contact(valueid)
+{
+    window.location =  "http://127.0.0.1:8000/stellar/send_contact/"+valueid;
+}
+</script>
 
 {% endblock %}

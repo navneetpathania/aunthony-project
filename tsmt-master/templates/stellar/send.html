@@ -21,8 +21,8 @@
               <div class="form">
                 <form class="login-form" method="POST" action="/stellar/send/">
                     {% csrf_token %}
-                  {% trans "Username" %}<input type="text" name="to_user" placeholder='to_user' value="{{ user|default_if_none:''}}" size="40" />
-                  {% trans "Account" %}<input type="text" name="to_addr" placeholder='to_addr' value="{{ account|default_if_none:''}}" size="78"/>
+                  {% trans "Username" %}<input type="text" name="to_user" placeholder='to_user' value="{{send_detailes.user_name}}" size="40" />
+                  {% trans "Account" %}<input type="text" name="to_addr" placeholder='to_addr' value="{{send_detailes.address}}" size="78"/>
                    {% trans "Amount" %}<input type="text" name="amount" placeholder='10.0' value="" size="20" />
                   {% trans "Currency" %}<input type="text" name="currency" placeholder='currency' value="{{ currency|default_if_none:''}}" size="20" />
                   <button>Send</button>

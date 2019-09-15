@@ -38,25 +38,39 @@ def send(request):
         user = request.POST['to_user']
         currency = request.POST['currency']
         amount = request.POST['amount']
-        r = {'account': account, 'user': user,'currency': currency}
-        return send_payment(amount,currency)
+        from_address = Accounts.objects.get(user_name=request.user)
+        sender = from_address.seed
+        # r = {'account': account, 'user': user,'currency': currency}
+        return send_payment(request,amount,currency,sender,account)
     return render(request, 'stellar/send.html')
 
-def send_payment(amount, currency):
-    builder = Builder(secret='SBJQVRMWRUZM5P22DHFKEMTT7BFB62XVHEQ5EAKK3IKENUNQ5LYTH5XM')
-    builder.append_payment_op("GDFVU7TR4HK23ODYRX3A2FNFNBGU2ZNWYSRVIQC7JQPWCH7TFSAEZTZK", amount, currency)
+def send_contact(request,id,):
+    if request.method == "POST":
+        account = request.POST['to_addr']
+        user = request.POST['to_user']
+        currency = request.POST['currency']
+        amount = request.POST['amount']
+        from_address = Accounts.objects.get(user_name=request.user)
+        sender = from_address.seed
+        return send_payment(request, amount, currency, sender, account)
+    send_detailes = Contact.objects.get(id=id)
+    return render(request, 'stellar/send.html', {'send_detailes': send_detailes})
+
+def send_payment(request,amount,currency,sender,account):
+    builder = Builder(secret=sender)
+    builder.append_payment_op(account,amount,currency)
     builder.add_text_memo("first payment")
     builder.sign()
     s = builder.submit()
     print(s['_links'])
+    return HttpResponse("send successfully plz check user transaction here")
 
 
 
 @login_required
 def get_contacts(request):
-    if request.method =='GET':
-        r = Contact.objects.filter(user_name=request.user)
-        return render(request, 'stellar/get_contacts.html', {'r': r})
+    r = Contact.objects.all()
+    return render(request, 'stellar/get_contacts.html', {'r': r})
 
 @login_required
 def contact_create(request):
@@ -77,27 +91,28 @@ def contact_create(request):
         return render(request, 'stellar/create_contact.html', {'form': form})
 
 @login_required
-def contact_delete(request):
-    contact = request.GET.get('contact')
-    if contact:
-        r = get_object_or_404(Contact,user_name=request.user,contact=contact)
-        #r = Contact.objects.filter(user_name=request.user,contact=contact)
-        if r:
-            print("delete")
-            print(r)
-            r.delete()
-        else:
-            message = _("sorry something went wrong")
-            context = {'success': message}
-    else:
-        print("TEST")
-    x = Contact.objects.filter(user_name=request.user)
-    return redirect ('/get_contacts')
+def contact_delete(request,id):
+    Contact.objects.filter(id=id).delete()
+    # contact = request.GET.get('contact')
+    # if contact:
+    #     r = get_object_or_404(Contact,user_name=request.user,contact=contact)
+    #     #r = Contact.objects.filter(user_name=request.user,contact=contact)
+    #     if r:
+    #         print("delete")
+    #         print(r)
+    #         r.delete()
+    #     else:
+    #         message = _("sorry something went wrong")
+    #         context = {'success': message}
+    # else:
+    #     print("TEST")
+    # x = Contact.objects.filter(user_name=request.user)
+    return redirect ('/stellar/get_contacts')
 
 @login_required
 def request(request):
-    user = Accounts.objects.filter(user_name=request.user)
-    account =user[0].address
+    user = Accounts.objects.get(user_name=request.user)
+    account =user.address
     file = str(account)+".png"
     r = {'img':str(file),'account': account}
     print(r)
@@ -145,13 +160,14 @@ def qrcode_gen(request):
     box_size=10,
     border=4,
     )
-    user = Accounts.objects.filter(user_name=request.user)
-    address = user[0].address
+    user = Accounts.objects.get(user_name=request.user)
+    address = user.address
     qr.add_data(address)
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     file =os.path.join(BASE_DIR,'static') + "/qr/" + str(address)+".png"
     img.save(file)
+    return file
 
 @login_required
 def transactions(request):
