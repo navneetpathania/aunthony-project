@@ -113,9 +113,10 @@ def contact_delete(request,id):
 def request(request):
     user = Accounts.objects.get(user_name=request.user)
     account =user.address
+    qrcode_gen(request,user)
     file = str(account)+".png"
     r = {'img':str(file),'account': account}
-    print(r)
+
     return render(request, 'stellar/request.html',{'r': r})
 # @login_required
 # def accountdetails(request):
@@ -153,14 +154,14 @@ def importaccount(request):
     return render(request,'stellar/import_account.html',context)
 
 @login_required
-def qrcode_gen(request):
+def qrcode_gen(request,user):
     qr = qrcode.QRCode(
     version=1,
     error_correction=qrcode.constants.ERROR_CORRECT_L,
     box_size=10,
     border=4,
     )
-    user = Accounts.objects.get(user_name=request.user)
+    user = Accounts.objects.get(user_name=user)
     address = user.address
     qr.add_data(address)
     qr.make(fit=True)
